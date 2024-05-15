@@ -29,7 +29,7 @@ class Program
                         Map m = new Map();
                         m.ViborMap(maps);
                         Gmap = m.CreateMap(Gmap);
-                        Game(Gmap);
+                        Game(Gmap, P1, m);
                         break;
                     }
                 case 2:
@@ -59,13 +59,80 @@ class Program
             }
         }
     }
-    public static void Game(string[] m)
+    public static void Game(string[] m, Player P1, Map map)
     {
-        foreach (string n in m)
+        string GG,sim;
+        int UpDoun = 0, GameMenu;
+        if (map.GetMapType() == 0)
         {
-            Console.Write(n);
-            Console.WriteLine();
+            UpDoun = 10;
         }
+        else if (map.GetMapType() == 1)
+        {
+            UpDoun = 5;
+        }
+        else if (map.GetMapType() == 2)
+        {
+            UpDoun = 17;
+        }
+        else
+        {
+            Console.WriteLine("Знаеете кто вовсем виноват?\nЕвр...");
+        }
+        while (P1.GetHP() > 0)
+        {
+            foreach (string n in m)
+            {
+                Console.Write(n);
+                Console.WriteLine();
+            }
+            Console.Write("Введите действие\n[1] - Вверх\n[2] - Влево\n[3] - Вниз\n[4] - Вправо\nВвод: ");
+            GameMenu = Convert.ToInt32(Console.ReadLine());
+            switch (GameMenu)
+            {
+                case 1:
+                    {
+                        for(int i = 0;i<m.Length;i++)
+                        {
+                            if (m[i] == "G")
+                            {
+                                if (m[i + UpDoun] != "|" || m[i + UpDoun] != "-" || m[i + UpDoun] != "_")
+                                {
+                                    m[i + UpDoun] = "G";
+                                    m[i] = "*";
+                                }
+                                
+                                break;
+
+                            }
+                        }
+
+                        break;
+                    }
+                case 2:
+                    {
+
+                        break;
+                    }
+                case 3:
+                    {
+
+                        break;
+                    }
+                case 4:
+                    {
+
+                        break;
+                    }
+                default:
+                    {
+                        Console.WriteLine("Знаеете кто вовсем виноват?\nЕвр...");
+                        break;
+                    }
+            }
+        }
+
+        
     }
 }
 
@@ -115,14 +182,13 @@ class Map
     Random rnd = new Random();
     string map;
     int lvl;
-    public Map()
-    {
-
-    }
+    int type;
     public void ViborMap(string[] maps)
     {
-        map = maps[rnd.Next(0, 3)];
+        type = rnd.Next(0, 3);
+        map = maps[type];
     }
+    public int GetMapType() { return type; }
     public string[] CreateMap(string[] m)
     {
         m = map.Split();
@@ -247,4 +313,5 @@ class Player
                 break;
         }
     }
+    public int GetHP() { return hp; }
 }

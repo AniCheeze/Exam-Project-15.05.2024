@@ -9,8 +9,8 @@ class Program
         int money = 0;
         Player P1 = new Player();
         string[] Nmaps = { "Холл", "Техническое помещение", "Буфет", "Комната" };
-        string[] maps = { "|---&&---| |********| |********| #********# |********| |********| |********| #********# |***G****| ----&&----", " _________________ |O***?******HHHH| |TTTTTTTTT******| |***********?***| |*T*****T**?**T*| |***?***********| |*T*****T*****T*| |**********?****| |*T**?**T*****T*| |***************| |*T***?*T****GT*| ------------&----", " ----- |**O| |***| |?**| |***| |**G| ---&-", " _______ |H*****H| |*******| |*******| |*******| |***?***| |*******| |***G***| ---&---" };
-        string[] Gmap = new string[150];
+        string[] maps = { "|---&&---|\n|********|\n|********|\n#********#\n|********|\n|********|\n|********|\n#********#\n|***G****|\n----&&----","\n_________________\n|O***?******HHHH|\n|TTTTTTTTT******|\n|***********?***|\n|*T*****T**?**T*|\n|***?***********|\n|*T*****T*****T*|\n|**********?****|\n|*T**?**T*****T*|\n|***************|\n|*T***?*T****GT*|\n------------&----", "\n-----\n|**O|\n|***|\n|?**|\n|***|\n|**G|\n---&-", "\n_______\n|H*****H|\n|*******|\n|*******|\n|*******|\n|***?***|\n|*******|\n|***G***|\n---&---" };
+        char[] Gmap = new char[150];
         while (menu != 0)
         {
             Console.WriteLine("1 - Начало игры, 2 - прокачка, 3 - информация");
@@ -28,7 +28,7 @@ class Program
                     {
                         Map m = new Map();
                         m.ViborMap(maps);
-                        Gmap = m.CreateMap(Gmap);
+                        Gmap = maps[m.GetMapType()].ToCharArray();
                         Game(Gmap, P1, m);
                         break;
                     }
@@ -59,34 +59,33 @@ class Program
             }
         }
     }
-    public static void Game(string[] m, Player P1, Map map)
+    public static void Game(char[] m, Player P1, Map map)
     {
         string GG,sim;
-        int UpDoun = 0, GameMenu;
+        int UpDoun = 10, GameMenu;
         if (map.GetMapType() == 0)
         {
-            UpDoun = 10;
+            UpDoun = 11;
         }
         else if (map.GetMapType() == 1)
         {
-            UpDoun = 5;
+            UpDoun = 18;
         }
         else if (map.GetMapType() == 2)
         {
-            UpDoun = 17;
+            UpDoun = 6;
         }
-        else
+        else if (map.GetMapType() == 3)
         {
-            Console.WriteLine("Знаеете кто вовсем виноват?\nЕвр...");
+            UpDoun = 8;
         }
         while (P1.GetHP() > 0)
         {
-            foreach (string n in m)
+            for(int i = 0; i < m.Length; i++)
             {
-                Console.Write(n);
-                Console.WriteLine();
+                Console.Write(m[i]);
             }
-            Console.Write("Введите действие\n[1] - Вверх\n[2] - Влево\n[3] - Вниз\n[4] - Вправо\nВвод: ");
+            Console.Write("\nВведите действие\n[1] - Вверх\n[2] - Влево\n[3] - Вниз\n[4] - Вправо\nВвод: ");
             GameMenu = Convert.ToInt32(Console.ReadLine());
             switch (GameMenu)
             {
@@ -94,16 +93,34 @@ class Program
                     {
                         for(int i = 0;i<m.Length;i++)
                         {
-                            if (m[i] == "G")
+                            if (m[i] == 'G')
                             {
-                                if (m[i + UpDoun] != "|" || m[i + UpDoun] != "-" || m[i + UpDoun] != "_")
-                                {
-                                    m[i + UpDoun] = "G";
-                                    m[i] = "*";
+                                if (m[i - UpDoun]!= '-' && m[i - UpDoun] != '_' && m[i - UpDoun] != 'T' && m[i + 1] != '|') {
+                                    Console.WriteLine(UpDoun);
+                                    m[i - UpDoun] = 'G';
+                                    m[i] = '*';
                                 }
-                                
-                                break;
+                                else if (m[i-UpDoun] == '&')
+                                {
 
+                                }
+                                else if (m[i - UpDoun] == 'O')
+                                {
+
+                                }
+                                else if(m[i - UpDoun] == '?')
+                                {
+
+                                }
+                                else if(m[i - UpDoun] == 'H')
+                                {
+
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                                break;
                             }
                         }
 
@@ -111,17 +128,113 @@ class Program
                     }
                 case 2:
                     {
+                        for (int i = 0; i < m.Length; i++)
+                        {
+                            if (m[i] == 'G')
+                            {
+                                if (m[i - 1] != '-' && m[i - 1] != '_' && m[i - 1] != 'T' && m[i - 1] != '|')
+                                {
+                                    Console.WriteLine(UpDoun);
+                                    m[i - 1] = 'G';
+                                    m[i] = '*';
+                                }
+                                else if (m[i-1] == '#')
+                                {
 
+                                }
+                                else if (m[i - 1] == 'O')
+                                {
+
+                                }
+                                else if (m[i - 1] == '?')
+                                {
+
+                                }
+                                else if (m[i - 1] == 'H')
+                                {
+
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                                break;
+                            }
+                        }
                         break;
                     }
                 case 3:
                     {
+                        for (int i = 0; i < m.Length; i++)
+                        {
+                            if (m[i] == 'G')
+                            {
+                                if (m[i + UpDoun] != '-' && m[i + UpDoun] != '_' && m[i + UpDoun] != 'T' && m[i + 1] != '|')
+                                {
+                                    Console.WriteLine(UpDoun);
+                                    m[i + UpDoun] = 'G';
+                                    m[i] = '*';
+                                }
+                                else if (m[i+ UpDoun] == '#')
+                                {
 
+                                }
+                                else if (m[i + UpDoun] == 'O')
+                                {
+
+                                }
+                                else if (m[i + UpDoun] == '?')
+                                {
+
+                                }
+                                else if (m[i + UpDoun] == 'H')
+                                {
+
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                                break;
+                            }
+                        }
                         break;
                     }
                 case 4:
                     {
+                        for (int i = 0; i < m.Length; i++)
+                        {
+                            if (m[i] == 'G')
+                            {
+                                if (m[i + 1] != '-' && m[i + 1] != '_' && m[i + 1] != 'T' && m[i + 1] != '|')
+                                {
+                                    Console.WriteLine(UpDoun);
+                                    m[i + 1] = 'G';
+                                    m[i] = '*';
+                                }
+                                else if (m[i + 1] == '#')
+                                {
 
+                                }
+                                else if (m[i + 1] == 'O')
+                                {
+
+                                }
+                                else if (m[i + 1] == '?')
+                                {
+
+                                }
+                                else if (m[i + 1] == 'H')
+                                {
+
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                                break;
+                            }
+                        }
                         break;
                     }
                 default:
@@ -189,14 +302,9 @@ class Map
         map = maps[type];
     }
     public int GetMapType() { return type; }
-    public string[] CreateMap(string[] m)
-    {
-        m = map.Split();
-        return m;
-    }
 }
 /*
-Холл
+Холл(Хохол)
 
 /n|---&&---|
 /n|********|

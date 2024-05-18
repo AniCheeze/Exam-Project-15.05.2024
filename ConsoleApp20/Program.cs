@@ -169,7 +169,7 @@ class Program
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i + UpDoun] != '-' && m[i + UpDoun] != '_' && m[i + UpDoun] != 'T' && m[i + 1] != '|')
+                                if (m[i + UpDoun] != '-' && m[i + UpDoun] != '_' && m[i + UpDoun] != 'T')
                                 {
                                     Console.WriteLine(UpDoun);
                                     m[i + UpDoun] = 'G';

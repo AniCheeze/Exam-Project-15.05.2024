@@ -68,7 +68,7 @@ partial class Program
             }
         }
     }
-    public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame, string[] maps)
+
     public static void BattleInitiate(double modifier, List<Enemy> A, bool LG, Player P1)
     {
         int BD;
@@ -150,7 +150,7 @@ partial class Program
         P1.BO = false;
         LG = false;
     }
-    public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame)
+    public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame, string[] maps)
     {
         string GG,sim;
         int UpDoun=0, GameMenu; 

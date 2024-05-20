@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Net.Mime.MediaTypeNames;
 partial class Program
 {
     public static void Main(string[] args)
@@ -58,7 +59,7 @@ partial class Program
                         break;
                     }
                 case 4:
-                    P1.BattleInitiate(1, list, lostgame);
+                    BattleInitiate(1, list, lostgame, P1);
                     break;
                 default:
                     {
@@ -67,6 +68,87 @@ partial class Program
                     }
             }
         }
+    }
+    public static void BattleInitiate(double modifier, List<Enemy> A, bool LG, Player P1)
+    {
+        int BD;
+        if (P1.BO != true)
+        {
+            BD = P1.rand.Next(2);
+            switch (BD)
+            {
+                case 0:
+                    while (P1.BO != true)
+                    {
+                        Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
+                        A[BD].GetDamage(P1.ReturnDamage());
+                        Console.WriteLine($"Вы нанесли зомби {P1.ReturnDamage()} ед урона");
+                        P1.GetDamage(A[BD].ReturnDamage());
+                        Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
+                        if (A[BD].ReturnHp() <= 0)
+                        {
+                            Console.WriteLine("Вы победили");
+                            P1.BO = true;
+                            A[BD].SetHp(100);
+                        }
+                        else if (P1.ReturnHp() <= 0)
+                        {
+                            Console.WriteLine("Вы проиграли");
+                            P1.BO = true;
+                            LG = true;
+                            A[BD].SetHp(100);
+                        }
+                    }
+                    break;
+
+                case 1:
+                    Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
+                    A[BD].GetDamage(P1.ReturnDamage());
+                    Console.WriteLine($"Вы нанесли зомби {P1.ReturnDamage()} ед урона");
+                    P1.GetDamage(A[BD].ReturnDamage());
+                    Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
+                    if (A[BD].ReturnHp() <= 0)
+                    {
+                        Console.WriteLine("Вы победили");
+                        P1.BO = true;
+                        A[BD].SetHp(100);
+                    }
+                    else if (P1.ReturnHp() <= 0)
+                    {
+                        Console.WriteLine("Вы проиграли");
+                        P1.BO = true;
+                        LG = true;
+                        A[BD].SetHp(100);
+                    }
+                    break;
+
+                case 2:
+                    Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
+                    A[BD].GetDamage(P1.ReturnDamage());
+                    Console.WriteLine($"Вы нанесли зомби {P1.ReturnDamage()} ед урона");
+                    P1.GetDamage(A[BD].ReturnDamage());
+                    Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
+                    if (A[BD].ReturnHp() <= 0)
+                    {
+                        Console.WriteLine("Вы победили");
+                        P1.BO = true;
+                        A[BD].SetHp(100);
+                    }
+                    else if (P1.ReturnHp() <= 0)
+                    {
+                        Console.WriteLine("Вы проиграли");
+                        P1.BO = true;
+                        LG = true;
+                        A[BD].SetHp(100);
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Враг не найден");
+                    break;
+            }
+        }
+        P1.BO = false;
+        LG = false;
     }
     public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame)
     {
@@ -120,7 +202,7 @@ partial class Program
                                 }
                                 else if(m[i - UpDoun] == '?')
                                 {
-                                    P1.BattleInitiate(1, list, lostgame);
+                                    BattleInitiate(1, list, lostgame, P1);
                                 }
                                 else if(m[i - UpDoun] == 'H')
                                 {
@@ -160,7 +242,7 @@ partial class Program
                                 }
                                 else if (m[i - 1] == '?')
                                 {
-                                    P1.BattleInitiate(1, list, lostgame);
+                                    BattleInitiate(1, list, lostgame, P1);
                                 }
                                 else if (m[i - 1] == 'H')
                                 {
@@ -199,7 +281,7 @@ partial class Program
                                 }
                                 else if (m[i + UpDoun] == '?')
                                 {
-                                    P1.BattleInitiate(1, list, lostgame);
+                                    BattleInitiate(1, list, lostgame, P1);
                                 }
                                 else if (m[i + UpDoun] == 'H')
                                 {
@@ -238,7 +320,7 @@ partial class Program
                                 }
                                 else if (m[i + 1] == '?')
                                 {
-                                    P1.BattleInitiate(1, list, lostgame);
+                                    BattleInitiate(1, list, lostgame, P1);
                                 }
                                 else if (m[i + 1] == 'H')
                                 {
@@ -441,6 +523,7 @@ class Map
 /n|***G***|
 /n ---&---
 */
+
 class Player
 {
     string name;
@@ -451,8 +534,8 @@ class Player
     public Random rnd = new Random();
     //Если будет время
     int fortune;
-    bool BO = false;
-    Random rand = new Random();
+    public bool BO = false;
+    public Random rand = new Random();
     public Player()
     {
         name = "Player";
@@ -464,6 +547,10 @@ class Player
     public int ReturnDamage()
     {
         return damage;
+    }
+    public int ReturnDefence()
+    {
+        return defense;
     }
     public void Upgrade(int a, int money)
     {
@@ -526,85 +613,6 @@ class Player
     public void SetHp(int a)
     {
         hp = a;
-    }
-    public void BattleInitiate(double modifier, List<Enemy> A, bool LG)
-    {
-        int BD;
-        if(BO != true)
-        {
-            BD = rand.Next(2);
-            switch (BD)
-            {
-                case 0:
-                    while(BO != true)
-                    {
-                        Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
-                        A[BD].GetDamage(damage);
-                        Console.WriteLine($"Вы нанесли зомби {damage} ед урона");
-                        GetDamage(A[BD].ReturnDamage());
-                        Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - defense} ");
-                        if(A[BD].ReturnHp() <= 100)
-                        {
-                            Console.WriteLine("Вы победили");
-                            BO = true;
-                            A[BD].SetHp(100);
-                        }
-                        else if(ReturnHp() <= 100)
-                        {
-                            Console.WriteLine("Вы проиграли");
-                            BO = true;
-                            LG = true;
-                            A[BD].SetHp(100);
-                        }
-                    }
-                    break;
-
-                case 1:
-                    Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
-                    A[BD].GetDamage(damage);
-                    Console.WriteLine($"Вы нанесли зомби {damage} ед урона");
-                    GetDamage(A[BD].ReturnDamage());
-                    Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - defense} ");
-                    if (A[BD].ReturnHp() <= 100)
-                    {
-                        Console.WriteLine("Вы победили");
-                        BO = true;
-                        A[BD].SetHp(100);
-                    }
-                    else if (ReturnHp() <= 100)
-                    {
-                        Console.WriteLine("Вы проиграли");
-                        BO = true;
-                        LG = true;
-                        A[BD].SetHp(100);
-                    }
-                    break;
-
-                case 2:
-                    Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
-                    A[BD].GetDamage(damage);
-                    Console.WriteLine($"Вы нанесли зомби {damage} ед урона");
-                    GetDamage(A[BD].ReturnDamage());
-                    Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - defense} ");
-                    if (A[BD].ReturnHp() <= 100)
-                    {
-                        Console.WriteLine("Вы победили");
-                        BO = true;
-                        A[BD].SetHp(100);
-                    }
-                    else if (ReturnHp() <= 100)
-                    {
-                        Console.WriteLine("Вы проиграли");
-                        BO = true;
-                        LG = true;
-                        A[BD].SetHp(100);
-                    }
-                    break;
-                default:
-                        Console.WriteLine("Враг не найден");
-                        break;
-            }
-        }
     }
 
     public int GetHP() { return hp; }

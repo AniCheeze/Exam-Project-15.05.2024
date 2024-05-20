@@ -33,9 +33,8 @@ partial class Program
                 case 1:
                     {
                         Map m = new Map();
-                        m.ViborMap(maps);
-                        Gmap = maps[m.GetMapType()].ToCharArray();
-                        Game(Gmap, P1, m, list, lostgame);
+                        Gmap = maps[0].ToCharArray();
+                        Game(Gmap, P1, m, list, lostgame,maps);
                         break;
                     }
                 case 2:
@@ -68,29 +67,29 @@ partial class Program
             }
         }
     }
-    public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame)
+    public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame, string[] maps)
     {
         string GG,sim;
-        int UpDoun = 10, GameMenu;
-        if (map.GetMapType() == 0)
-        {
-            UpDoun = 11;
-        }
-        else if (map.GetMapType() == 1)
-        {
-            UpDoun = 18;
-        }
-        else if (map.GetMapType() == 2)
-        {
-            UpDoun = 6;
-        }
-        else if (map.GetMapType() == 3)
-        {
-            UpDoun = 8;
-        }
+        int UpDoun=0, GameMenu; 
         while (P1.GetHP() > 0)
         {
-            for(int i = 0; i < m.Length; i++)
+            if (map.GetMapType() == 0)
+            {
+                UpDoun = 11;
+            }
+            else if (map.GetMapType() == 1)
+            {
+                UpDoun = 18;
+            }
+            else if (map.GetMapType() == 2)
+            {
+                UpDoun = 6;
+            }
+            else if (map.GetMapType() == 3)
+            {
+                UpDoun = 8;
+            }
+            for (int i = 0; i < m.Length; i++)
             {
                 Console.Write(m[i]);
             }
@@ -104,14 +103,15 @@ partial class Program
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i - UpDoun]!= '-' && m[i - UpDoun] != '_' && m[i - UpDoun] != 'T' ) {
+                                if (m[i - UpDoun]!= '-' && m[i - UpDoun] != '_' && m[i - UpDoun] != 'T' && m[i - UpDoun] != '&') {
                                     Console.WriteLine(UpDoun);
                                     m[i - UpDoun] = 'G';
                                     m[i] = '*';
                                 }
                                 else if (m[i-UpDoun] == '&')
                                 {
-
+                                    map.ViborMap(maps, 0);
+                                    m = maps[map.GetMapType()].ToCharArray();
                                 }
                                 else if (m[i - UpDoun] == 'O')
                                 {
@@ -143,7 +143,7 @@ partial class Program
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i - 1] != '-' && m[i - 1] != '_' && m[i - 1] != 'T' && m[i - 1] != '|')
+                                if (m[i - 1] != '-' && m[i - 1] != '_' && m[i - 1] != 'T' && m[i - 1] != '|'&& m[i - 1] != '#')
                                 {
                                     Console.WriteLine(UpDoun);
                                     m[i - 1] = 'G';
@@ -151,7 +151,9 @@ partial class Program
                                 }
                                 else if (m[i-1] == '#')
                                 {
-
+                                    map.ViborMap(maps,1);
+                                    m = maps[map.GetMapType()].ToCharArray();
+                                    break;
                                 }
                                 else if (m[i - 1] == 'O')
                                 {
@@ -182,15 +184,16 @@ partial class Program
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i + UpDoun] != '-' && m[i + UpDoun] != '_' && m[i + UpDoun] != 'T')
+                                if (m[i + UpDoun] != '-' && m[i + UpDoun] != '_' && m[i + UpDoun] != 'T' && m[i + UpDoun] != '&')
                                 {
                                     Console.WriteLine(UpDoun);
                                     m[i + UpDoun] = 'G';
                                     m[i] = '*';
                                 }
-                                else if (m[i + UpDoun] == '#')
+                                else if (m[i + UpDoun] == '&')
                                 {
-
+                                    map.ViborMap(maps, 0);
+                                    m = maps[map.GetMapType()].ToCharArray();
                                 }
                                 else if (m[i + UpDoun] == 'O')
                                 {
@@ -221,7 +224,7 @@ partial class Program
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i + 1] != '-' && m[i + 1] != '_' && m[i + 1] != 'T' && m[i + 1] != '|')
+                                if (m[i + 1] != '-' && m[i + 1] != '_' && m[i + 1] != 'T' && m[i + 1] != '|' && m[i + 1] != '#')
                                 {
                                     Console.WriteLine(UpDoun);
                                     m[i + 1] = 'G';
@@ -229,7 +232,8 @@ partial class Program
                                 }
                                 else if (m[i + 1] == '#')
                                 {
-
+                                    map.ViborMap(maps,1);
+                                    m = maps[map.GetMapType()].ToCharArray();
                                 }
                                 else if (m[i + 1] == 'O')
                                 {
@@ -383,10 +387,17 @@ class Map
     string map;
     int lvl;
     int type;
-    public void ViborMap(string[] maps)
+    public void ViborMap(string[] maps,int chis)
     {
-        type = rnd.Next(0, 3);
-        map = maps[type];
+        if (chis != 0)
+        {
+            type = rnd.Next(1, 3);
+            map = maps[type];
+        }
+        else
+        {
+            type = 0;
+        }
     }
     public int GetMapType() { return type; }
 }

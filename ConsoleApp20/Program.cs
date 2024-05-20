@@ -159,7 +159,8 @@ partial class Program
     public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame, string[] maps)
     {
         string GG,sim;
-        int UpDoun=0, GameMenu; 
+        int UpDoun=0, GameMenu;
+        P1.NewHp();
         while (P1.GetHP() > 0)
         {
             if (map.GetMapType() == 0)
@@ -182,23 +183,25 @@ partial class Program
             {
                 Console.Write(m[i]);
             }
+            Console.WriteLine("\n"+P1.ReturnHp());
             Console.Write("\nВведите действие\n[1] - Вверх\n[2] - Влево\n[3] - Вниз\n[4] - Вправо\nВвод: ");
             GameMenu = Convert.ToInt32(Console.ReadLine());
             switch (GameMenu)
             {
                 case 1:
                     {
-                        for(int i = 0;i<m.Length;i++)
+                        for (int i = 0; i < m.Length; i++)
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i - UpDoun]!= '-' && m[i - UpDoun] != '_' && m[i - UpDoun] != 'T' && m[i - UpDoun] != '&') {
-                                    Console.WriteLine(UpDoun);
+                                if (m[i - UpDoun] != '-' && m[i - UpDoun] != '_' && m[i - UpDoun] != 'T' && m[i - UpDoun] != '&' && m[i - UpDoun] != 'O' && m[i - UpDoun] != '?' && m[i - UpDoun] != 'H')
+                                {
                                     m[i - UpDoun] = 'G';
                                     m[i] = '*';
                                 }
-                                else if (m[i-UpDoun] == '&')
+                                else if (m[i - UpDoun] == '&')
                                 {
+                                    P1.NewHp();
                                     map.ViborMap(maps, 0);
                                     m = maps[map.GetMapType()].ToCharArray();
                                 }
@@ -206,24 +209,29 @@ partial class Program
                                 {
                                     P1.money += P1.rnd.Next(5);
                                     Console.WriteLine($"Вы получили монеты, у вас теперь - {P1.money} монет ");
+                                    m[i - UpDoun] = 'G';
+                                    m[i] = '*';
                                 }
-                                else if(m[i - UpDoun] == '?')
+                                else if (m[i - UpDoun] == '?')
                                 {
                                     BattleInitiate(1, list, lostgame, P1);
+                                    m[i - UpDoun] = 'G';
+                                    m[i] = '*';
                                 }
-                                else if(m[i - UpDoun] == 'H')
+                                else if (m[i - UpDoun] == 'H')
                                 {
                                     P1.money += P1.rnd.Next(10);
                                     Console.WriteLine($"Вы получили монеты, у вас теперь - {P1.money} монет ");
+                                    m[i - UpDoun] = 'G';
+                                    m[i] = '*';
                                 }
                                 else
                                 {
                                     break;
                                 }
                                 break;
-                            }
+                            } 
                         }
-
                         break;
                     }
                 case 2:
@@ -232,9 +240,8 @@ partial class Program
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i - 1] != '-' && m[i - 1] != '_' && m[i - 1] != 'T' && m[i - 1] != '|'&& m[i - 1] != '#')
+                                if (m[i - 1] != '-' && m[i - 1] != '_' && m[i - 1] != 'T' && m[i - 1] != '|'&& m[i - 1] != '#' && m[i - 1] != 'O' && m[i - 1] != '?' && m[i - 1] != 'H')
                                 {
-                                    Console.WriteLine(UpDoun);
                                     m[i - 1] = 'G';
                                     m[i] = '*';
                                 }
@@ -252,11 +259,15 @@ partial class Program
                                 else if (m[i - 1] == '?')
                                 {
                                     BattleInitiate(1, list, lostgame, P1);
+                                    m[i - 1] = 'G';
+                                    m[i] = '*';
                                 }
                                 else if (m[i - 1] == 'H')
                                 {
                                     P1.money += P1.rnd.Next(10);
                                     Console.WriteLine($"Вы получили монеты, у вас теперь - {P1.money} монет ");
+                                    m[i - 1] = 'G';
+                                    m[i] = '*';
                                 }
                                 else
                                 {
@@ -273,30 +284,37 @@ partial class Program
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i + UpDoun] != '-' && m[i + UpDoun] != '_' && m[i + UpDoun] != 'T' && m[i + UpDoun] != '&')
+                                if (m[i + UpDoun] != '-' && m[i + UpDoun] != '_' && m[i + UpDoun] != 'T' && m[i + UpDoun] != '&' && m[i + UpDoun] != 'O' && m[i + UpDoun] != '?' && m[i + UpDoun] != 'H')
                                 {
-                                    Console.WriteLine(UpDoun);
                                     m[i + UpDoun] = 'G';
                                     m[i] = '*';
                                 }
                                 else if (m[i + UpDoun] == '&')
                                 {
+                                    P1.NewHp();
                                     map.ViborMap(maps, 0);
                                     m = maps[map.GetMapType()].ToCharArray();
+                                    
                                 }
                                 else if (m[i + UpDoun] == 'O')
                                 {
                                     P1.money += P1.rnd.Next(5);
                                     Console.WriteLine($"Вы получили монеты, у вас теперь - {P1.money} монет ");
+                                    m[i + UpDoun] = 'G';
+                                    m[i] = '*';
                                 }
                                 else if (m[i + UpDoun] == '?')
                                 {
                                     BattleInitiate(1, list, lostgame, P1);
+                                    m[i + UpDoun] = 'G';
+                                    m[i] = '*';
                                 }
                                 else if (m[i + UpDoun] == 'H')
                                 {
                                     P1.money += P1.rnd.Next(10);
                                     Console.WriteLine($"Вы получили монеты, у вас теперь - {P1.money} монет ");
+                                    m[i + UpDoun] = 'G';
+                                    m[i] = '*';
                                 }
                                 else
                                 {
@@ -313,9 +331,8 @@ partial class Program
                         {
                             if (m[i] == 'G')
                             {
-                                if (m[i + 1] != '-' && m[i + 1] != '_' && m[i + 1] != 'T' && m[i + 1] != '|' && m[i + 1] != '#')
+                                if (m[i + 1] != '-' && m[i + 1] != '_' && m[i + 1] != 'T' && m[i + 1] != '|' && m[i + 1] != '#' && m[i + 1] != 'O' && m[i + 1] != '?' && m[i + 1] != 'H')
                                 {
-                                    Console.WriteLine(UpDoun);
                                     m[i + 1] = 'G';
                                     m[i] = '*';
                                 }
@@ -328,15 +345,21 @@ partial class Program
                                 {
                                     P1.money += P1.rnd.Next(5);
                                     Console.WriteLine($"Вы получили монеты, у вас теперь - {P1.money} монет ");
+                                    m[i + 1] = 'G';
+                                    m[i] = '*';
                                 }
                                 else if (m[i + 1] == '?')
                                 {
                                     BattleInitiate(1, list, lostgame, P1);
+                                    m[i + 1] = 'G';
+                                    m[i] = '*';
                                 }
                                 else if (m[i + 1] == 'H')
                                 {
                                     P1.money += P1.rnd.Next(10);
                                     Console.WriteLine($"Вы получили монеты, у вас теперь - {P1.money} монет ");
+                                    m[i + 1] = 'G';
+                                    m[i] = '*';
                                 }
                                 else
                                 {
@@ -561,6 +584,10 @@ class Player
         damage = 15;
         defense = 10;
         fortune = 10;
+    }
+    public void NewHp()
+    {
+        hp = 100;
     }
     public int ReturnDamage()
     {

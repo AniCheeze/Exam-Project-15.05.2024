@@ -9,11 +9,11 @@ partial class Program
         bool lostgame = false;
         Zombie zombie = new Zombie();
         Skeleton skeleton = new Skeleton();
+        Ogre ogre = new Ogre();
         List<Enemy> list = new List<Enemy>();
         list.Add(zombie);
         list.Add(skeleton);
-        list.Add(zombie);
-        Ogre ogre = new Ogre();
+        list.Add(ogre);
         Player P1 = new Player();
         string[] Nmaps = { "Холл", "Техническое помещение", "Буфет", "Комната" };
         string[] maps = { "|---&&---|\n|********|\n|********|\n#********#\n|********|\n|********|\n|********|\n#********#\n|***G****|\n----&&----","\n_________________\n|O***?******HHHH|\n|TTTTTTTTT******|\n|***********?***|\n|*T*****T**?**T*|\n|***?***********|\n|*T*****T*****T*|\n|**********?****|\n|*T**?**T*****T*|\n|***************|\n|*T***?*T****GT*|\n------------&----", "\n-----\n|**O|\n|***|\n|?**|\n|***|\n|**G|\n---&-", "\n_______\n|H*****H|\n|*******|\n|*******|\n|*******|\n|***?***|\n|*******|\n|***G***|\n---&---" };
@@ -74,13 +74,13 @@ partial class Program
         int BD;
         if (P1.BO != true)
         {
-            BD = P1.rand.Next(2);
+            BD = P1.rand.Next(3);
             switch (BD)
             {
                 case 0:
                     while (P1.BO != true)
                     {
-                        Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
+                        Console.WriteLine($"Ваш противник - зомби");
                         A[BD].GetDamage(P1.ReturnDamage());
                         Console.WriteLine($"Вы нанесли зомби {P1.ReturnDamage()} ед урона");
                         P1.GetDamage(A[BD].ReturnDamage());
@@ -102,44 +102,50 @@ partial class Program
                     break;
 
                 case 1:
-                    Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
-                    A[BD].GetDamage(P1.ReturnDamage());
-                    Console.WriteLine($"Вы нанесли зомби {P1.ReturnDamage()} ед урона");
-                    P1.GetDamage(A[BD].ReturnDamage());
-                    Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
-                    if (A[BD].ReturnHp() <= 0)
+                    while (P1.BO != true)
                     {
-                        Console.WriteLine("Вы победили");
-                        P1.BO = true;
-                        A[BD].SetHp(100);
-                    }
-                    else if (P1.ReturnHp() <= 0)
-                    {
-                        Console.WriteLine("Вы проиграли");
-                        P1.BO = true;
-                        LG = true;
-                        A[BD].SetHp(100);
+                        Console.WriteLine($"Ваш противник - скелет");
+                        A[BD].GetDamage(P1.ReturnDamage());
+                        Console.WriteLine($"Вы нанесли скелету {P1.ReturnDamage()} ед урона");
+                        P1.GetDamage(A[BD].ReturnDamage());
+                        Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
+                        if (A[BD].ReturnHp() <= 0)
+                        {
+                            Console.WriteLine("Вы победили");
+                            P1.BO = true;
+                            A[BD].SetHp(100);
+                        }
+                        else if (P1.ReturnHp() <= 0)
+                        {
+                            Console.WriteLine("Вы проиграли");
+                            P1.BO = true;
+                            LG = true;
+                            A[BD].SetHp(100);
+                        }
                     }
                     break;
 
                 case 2:
-                    Console.WriteLine($"Ваш противник - {A[BD].ReturnName}");
-                    A[BD].GetDamage(P1.ReturnDamage());
-                    Console.WriteLine($"Вы нанесли зомби {P1.ReturnDamage()} ед урона");
-                    P1.GetDamage(A[BD].ReturnDamage());
-                    Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
-                    if (A[BD].ReturnHp() <= 0)
+                    while (P1.BO != true)
                     {
-                        Console.WriteLine("Вы победили");
-                        P1.BO = true;
-                        A[BD].SetHp(100);
-                    }
-                    else if (P1.ReturnHp() <= 0)
-                    {
-                        Console.WriteLine("Вы проиграли");
-                        P1.BO = true;
-                        LG = true;
-                        A[BD].SetHp(100);
+                        Console.WriteLine($"Ваш противник - Огр");
+                        A[BD].GetDamage(P1.ReturnDamage());
+                        Console.WriteLine($"Вы нанесли огру {P1.ReturnDamage()} ед урона");
+                        P1.GetDamage(A[BD].ReturnDamage());
+                        Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
+                        if (A[BD].ReturnHp() <= 0)
+                        {
+                            Console.WriteLine("Вы победили");
+                            P1.BO = true;
+                            A[BD].SetHp(100);
+                        }
+                        else if (P1.ReturnHp() <= 0)
+                        {
+                            Console.WriteLine("Вы проиграли");
+                            P1.BO = true;
+                            LG = true;
+                            A[BD].SetHp(100);
+                        }
                     }
                     break;
                 default:

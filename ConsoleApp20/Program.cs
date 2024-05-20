@@ -259,17 +259,62 @@ partial class Program
     }
 }
 
-class Enemy
+interface Enemy
 {
-    protected string name;
-    protected int hp;
-    protected int damage;
+    string name { get; set; }
+    int hp { get; set; }
+    int damage { get; set; }
 
-    public Enemy()
+    void GetDamage(int a);
+    int ReturnDamage();
+    int ReturnHp();
+    void SetHp(int a);
+    string ReturnName();
+}
+class Zombie : Enemy
+{
+    public string name { get; set; }
+    public int hp { get; set; }
+    public int damage { get; set; }
+
+    public Zombie()
     {
-        name = "Enemy";
+        name = "Zombie";
         hp = 100;
-        damage = 10;
+        damage = 12;
+    }
+
+    public void GetDamage(int a)
+    {
+        hp -= a;
+    }
+    public int ReturnDamage()
+    {
+        return damage;
+    }
+    public int ReturnHp()
+    {
+        return hp;
+    }
+    public  void SetHp(int a)
+    {
+        hp = a;
+    }
+    public  string ReturnName()
+    {
+        return name;
+    }
+}
+class Skeleton : Enemy
+{
+    public string name { get; set; }
+    public int hp { get; set; }
+    public int damage { get; set; }
+    public Skeleton()
+    {
+        name = "Skeleton";
+        hp = 60;
+        damage = 20;
     }
     public void GetDamage(int a)
     {
@@ -292,31 +337,36 @@ class Enemy
         return name;
     }
 }
-class Zombie : Enemy
-{
-    public Zombie()
-    {
-        name = "Zombie";
-        hp = 100;
-        damage = 12;
-    }
-}
-class Skeleton : Enemy
-{
-    public Skeleton()
-    {
-        name = "Skeleton";
-        hp = 60;
-        damage = 20;
-    }
-}
 class Ogre : Enemy
 {
+    public string name { get; set; }
+    public int hp { get; set; }
+    public int damage { get; set; }
     public Ogre()
     {
         name = "Ogre";
         hp = 180;
         damage = 25;
+    }
+    public void GetDamage(int a)
+    {
+        hp -= a;
+    }
+    public int ReturnDamage()
+    {
+        return damage;
+    }
+    public int ReturnHp()
+    {
+        return hp;
+    }
+    public void SetHp(int a)
+    {
+        hp = a;
+    }
+    public string ReturnName()
+    {
+        return name;
     }
 }
 

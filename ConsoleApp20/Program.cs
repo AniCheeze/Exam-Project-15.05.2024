@@ -20,7 +20,7 @@ partial class Program
         char[] Gmap = new char[150];
         while (menu != 0)
         {
-            Console.WriteLine("1 - Начало игры, 2 - прокачка, 3 - информация, 4 - тест боя");
+            Console.Write("1 - Начало игры, 2 - информация, 3 - тест боя\nВвод: ");
             try
             {
                 menu = Convert.ToInt32(Console.ReadLine());
@@ -35,29 +35,15 @@ partial class Program
                     {
                         Map m = new Map();
                         Gmap = maps[0].ToCharArray();
-                        Game(Gmap, P1, m, list, lostgame,maps);
+                        Game(Gmap, P1, m, list, lostgame,maps,Nmaps);
                         break;
                     }
                 case 2:
                     {
-                        Console.Write("Выберите стат для улучшения(1 - Здоровье, 2 - Урон, 3 - Защита, 4 - Удача) - ");
-                        try
-                        {
-                            menu1 = Convert.ToInt32(Console.ReadLine());
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Неверный ввод");
-                        }
-                        P1.Upgrade(menu1, P1.money);
+                        Console.WriteLine($"Имя: {P1.GetName()}\nхп: {P1.ReturnHp()}\nДеньги: {P1.GetMoney()}");
                         break;
                     }
                 case 3:
-                    {
-
-                        break;
-                    }
-                case 4:
                     BattleInitiate(1, list, lostgame, P1);
                     break;
                 default:
@@ -156,10 +142,10 @@ partial class Program
         P1.BO = false;
         LG = false;
     }
-    public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame, string[] maps)
+    public static void Game(char[] m, Player P1, Map map, List<Enemy> list, bool lostgame, string[] maps, string[] Nmaps)
     {
         string GG,sim;
-        int UpDoun=0, GameMenu;
+        int UpDoun=0, GameMenu=0; 
         P1.NewHp();
         while (P1.GetHP() > 0)
         {
@@ -179,13 +165,20 @@ partial class Program
             {
                 UpDoun = 8;
             }
+            Console.WriteLine($"\nУровень: {map.GetLvl()}\n{Nmaps[map.GetMapType()]}");
             for (int i = 0; i < m.Length; i++)
+                {
+                    Console.Write(m[i]);
+                }            
+            Console.Write("\nВведите действие\n[1] - Вверх\n[2] - Влево\n[3] - Вниз\n[4] - Вправо\n[5] - Магазин прокачики\nВвод: ");
+            try
             {
-                Console.Write(m[i]);
+                GameMenu = Convert.ToInt32(Console.ReadLine());
             }
-            Console.WriteLine("\n"+P1.ReturnHp());
-            Console.Write("\nВведите действие\n[1] - Вверх\n[2] - Влево\n[3] - Вниз\n[4] - Вправо\nВвод: ");
-            GameMenu = Convert.ToInt32(Console.ReadLine());
+            catch
+            {
+                GameMenu=-1;
+            }
             switch (GameMenu)
             {
                 case 1:
@@ -202,6 +195,7 @@ partial class Program
                                 else if (m[i - UpDoun] == '&')
                                 {
                                     P1.NewHp();
+                                    map++;
                                     map.ViborMap(maps, 0);
                                     m = maps[map.GetMapType()].ToCharArray();
                                 }
@@ -292,6 +286,7 @@ partial class Program
                                 else if (m[i + UpDoun] == '&')
                                 {
                                     P1.NewHp();
+                                    map++;
                                     map.ViborMap(maps, 0);
                                     m = maps[map.GetMapType()].ToCharArray();
                                     
@@ -368,6 +363,20 @@ partial class Program
                                 break;
                             }
                         }
+                        break;
+                    }
+                case 5:
+                    {
+                        Console.Write($"------------------Магазин \"Четкая вкусняшка\" приветсвут вас------------------\nУ вас монет:{P1.GetMoney()}\nВыберите стат для улучшения(Все по 10 монет):\n[1] - Здоровье\n[2] - Урон\n[3] - Защита\n[4] - Удача\nВвод: ");
+                        try
+                        {
+                            GameMenu = Convert.ToInt32(Console.ReadLine());
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Знаеете кто вовсем виноват?\nЕвр...");
+                        }
+                        P1.Upgrade(GameMenu, P1.money);
                         break;
                     }
                 default:
@@ -497,7 +506,7 @@ class Map
 {
     Random rnd = new Random();
     string map;
-    int lvl;
+    int lvl = 0;
     int type;
     public void ViborMap(string[] maps,int chis)
     {
@@ -511,6 +520,12 @@ class Map
             type = 0;
         }
     }
+    public static Map operator ++ (Map m)
+    {
+        m.lvl++;
+        return m;
+    }
+    public int GetLvl() { return lvl; }
     public int GetMapType() { return type; }
 }
 /*
@@ -526,8 +541,7 @@ class Map
 /n#********#
 /n|***G****|
 /n----&&----
-*/
-/*
+
 Буфет
 /n _______________
 /n|O***?******HHHH|
@@ -541,8 +555,7 @@ class Map
 /n|***************|
 /n|*T***?*T****GT*|
 /n------------&--
-*/
-/*
+
 Тех помещение
 /n -----
 /n|**O|
@@ -551,8 +564,7 @@ class Map
 /n|***|
 /n|**G|
 /n---&-
-*/
-/*
+
 Комната
 /n _______
 /n|H*****H|
@@ -589,14 +601,8 @@ class Player
     {
         hp = 100;
     }
-    public int ReturnDamage()
-    {
-        return damage;
-    }
-    public int ReturnDefence()
-    {
-        return defense;
-    }
+    public int ReturnDamage(){ return damage; }
+    public int ReturnDefence(){ return defense;}
     public void Upgrade(int a, int money)
     {
         switch (a)
@@ -651,14 +657,12 @@ class Player
     {
         hp -= (a - defense);
     }
-    public int ReturnHp()
-    {
-        return hp;
-    }
+    public int ReturnHp(){ return hp;}
     public void SetHp(int a)
     {
         hp = a;
     }
-
+    public string GetName(){ return name;}
     public int GetHP() { return hp; }
+    public int GetMoney() { return money;} 
 }

@@ -67,6 +67,8 @@ partial class Program
                     while (P1.BO != true)
                     {
                         Console.WriteLine($"Ваш противник - зомби");
+                        Console.WriteLine($"Ваше ХП - {P1.GetHP()}");
+                        Console.WriteLine($"Здоровье противка {A[BD].ReturnHp()}");
                         Console.WriteLine("1 - Атака, 2 - Парирование, 3 - Побег\nВыберите действие - ");
                         try
                         {
@@ -80,7 +82,7 @@ partial class Program
                         {
                             case 1:
                                 Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
-                                P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                P1.GetDamage(A[BD].ReturnDamage());
                                 Console.WriteLine($"Вы нанесли {P1.ReturnDamage()}");
                                 A[BD].GetDamage(P1.ReturnDamage());
                                 break;
@@ -95,7 +97,7 @@ partial class Program
                                 {
                                     Console.WriteLine("Провал");
                                     Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
-                                    P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                    P1.GetDamage(A[BD].ReturnDamage());
                                 }
                                 break;
 
@@ -144,7 +146,7 @@ partial class Program
                         {
                             case 1:
                                 Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
-                                P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                P1.GetDamage(A[BD].ReturnDamage());
                                 Console.WriteLine($"Вы нанесли {P1.ReturnDamage()}");
                                 A[BD].GetDamage(P1.ReturnDamage());
                                 break;
@@ -159,7 +161,7 @@ partial class Program
                                 {
                                     Console.WriteLine("Провал");
                                     Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
-                                    P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                    P1.GetDamage(A[BD].ReturnDamage());
                                 }
                                 break;
 
@@ -193,6 +195,8 @@ partial class Program
                     while (P1.BO != true)
                     {
                         Console.WriteLine($"Ваш противник - Огр");
+                        Console.WriteLine($"Ваше ХП - {P1.GetHP()}");
+                        Console.WriteLine($"Здоровье противка {A[BD].ReturnHp()}");
                         Console.WriteLine("1 - Атака, 2 - Парирование, 3 - Побег\nВыберите действие - ");
                         try
                         {
@@ -206,7 +210,7 @@ partial class Program
                         {
                             case 1:
                                 Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
-                                P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                P1.GetDamage(A[BD].ReturnDamage());
                                 Console.WriteLine($"Вы нанесли {P1.ReturnDamage()}");
                                 A[BD].GetDamage(P1.ReturnDamage());
                                 break;
@@ -221,7 +225,7 @@ partial class Program
                                 {
                                     Console.WriteLine("Провал");
                                     Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
-                                    P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                    P1.GetDamage(A[BD].ReturnDamage());
                                 }
                                 break;
 

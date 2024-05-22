@@ -5,7 +5,6 @@ partial class Program
     public static void Main(string[] args)
     {
         int menu = 1;
-        int menu1 = 1;
         bool lostgame = false;
         Zombie zombie = new Zombie();
         Skeleton skeleton = new Skeleton();
@@ -57,6 +56,7 @@ partial class Program
 
     public static void BattleInitiate(double modifier, List<Enemy> A, bool LG, Player P1)
     {
+        int menuBT = 1;
         int BD;
         if (P1.BO != true)
         {
@@ -67,10 +67,48 @@ partial class Program
                     while (P1.BO != true)
                     {
                         Console.WriteLine($"Ваш противник - зомби");
-                        A[BD].GetDamage(P1.ReturnDamage());
-                        Console.WriteLine($"Вы нанесли зомби {P1.ReturnDamage()} ед урона");
-                        P1.GetDamage(A[BD].ReturnDamage());
-                        Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
+                        Console.WriteLine("1 - Атака, 2 - Парирование, 3 - Побег\nВыберите действие - ");
+                        try
+                        {
+                            menuBT = int.Parse(Console.ReadLine());
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Ошибка ввода");
+                        }
+                        switch (menuBT)
+                        {
+                            case 1:
+                                Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
+                                P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                Console.WriteLine($"Вы нанесли {P1.ReturnDamage()}");
+                                A[BD].GetDamage(P1.ReturnDamage());
+                                break;
+
+                            case 2:
+                                if(P1.rand.Next(100) < 50)
+                                {
+                                    Console.WriteLine("Вы успешно парировали атаку врага. + 15 ХП");
+                                    P1.SetHp(P1.ReturnHp() + 15);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Провал");
+                                    Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
+                                    P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                }
+                                break;
+
+                            case 3:
+                                Console.WriteLine("Вы сбежали.");
+                                P1.BO = true;
+                                A[BD].SetHp(100);
+                                break;
+
+                            default:
+                                Console.WriteLine("Ошибка ввода.");
+                                break;
+                        }
                         if (A[BD].ReturnHp() <= 0)
                         {
                             Console.WriteLine("Вы победили");
@@ -91,10 +129,50 @@ partial class Program
                     while (P1.BO != true)
                     {
                         Console.WriteLine($"Ваш противник - скелет");
-                        A[BD].GetDamage(P1.ReturnDamage());
-                        Console.WriteLine($"Вы нанесли скелету {P1.ReturnDamage()} ед урона");
-                        P1.GetDamage(A[BD].ReturnDamage());
-                        Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
+                        Console.WriteLine($"Ваше ХП - {P1.GetHP()}");
+                        Console.WriteLine($"Здоровье противка {A[BD].ReturnHp()}");
+                        Console.WriteLine("1 - Атака, 2 - Парирование, 3 - Побег\nВыберите действие - ");
+                        try
+                        {
+                            menuBT = int.Parse(Console.ReadLine());
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Ошибка ввода");
+                        }
+                        switch (menuBT)
+                        {
+                            case 1:
+                                Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
+                                P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                Console.WriteLine($"Вы нанесли {P1.ReturnDamage()}");
+                                A[BD].GetDamage(P1.ReturnDamage());
+                                break;
+
+                            case 2:
+                                if (P1.rand.Next(100) < 50)
+                                {
+                                    Console.WriteLine("Вы успешно парировали атаку врага. + 15 ХП");
+                                    P1.SetHp(P1.ReturnHp() + 15);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Провал");
+                                    Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
+                                    P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                }
+                                break;
+
+                            case 3:
+                                Console.WriteLine("Вы сбежали.");
+                                P1.BO = true;
+                                A[BD].SetHp(100);
+                                break;
+
+                            default:
+                                Console.WriteLine("Ошибка ввода.");
+                                break;
+                        }
                         if (A[BD].ReturnHp() <= 0)
                         {
                             Console.WriteLine("Вы победили");
@@ -115,10 +193,48 @@ partial class Program
                     while (P1.BO != true)
                     {
                         Console.WriteLine($"Ваш противник - Огр");
-                        A[BD].GetDamage(P1.ReturnDamage());
-                        Console.WriteLine($"Вы нанесли огру {P1.ReturnDamage()} ед урона");
-                        P1.GetDamage(A[BD].ReturnDamage());
-                        Console.WriteLine($"Вы получили {A[BD].ReturnDamage() - P1.ReturnDefence()} урона");
+                        Console.WriteLine("1 - Атака, 2 - Парирование, 3 - Побег\nВыберите действие - ");
+                        try
+                        {
+                            menuBT = int.Parse(Console.ReadLine());
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Ошибка ввода");
+                        }
+                        switch (menuBT)
+                        {
+                            case 1:
+                                Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
+                                P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                Console.WriteLine($"Вы нанесли {P1.ReturnDamage()}");
+                                A[BD].GetDamage(P1.ReturnDamage());
+                                break;
+
+                            case 2:
+                                if (P1.rand.Next(100) < 50)
+                                {
+                                    Console.WriteLine("Вы успешно парировали атаку врага. + 15 ХП");
+                                    P1.SetHp(P1.ReturnHp() + 15);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Провал");
+                                    Console.WriteLine($"Вам нанесли {A[BD].ReturnDamage() - P1.ReturnDefence()}");
+                                    P1.GetDamage(A[BD].ReturnDamage() - P1.ReturnDefence());
+                                }
+                                break;
+
+                            case 3:
+                                Console.WriteLine("Вы сбежали.");
+                                P1.BO = true;
+                                A[BD].SetHp(100);
+                                break;
+
+                            default:
+                                Console.WriteLine("Ошибка ввода.");
+                                break;
+                        }
                         if (A[BD].ReturnHp() <= 0)
                         {
                             Console.WriteLine("Вы победили");
